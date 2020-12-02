@@ -1,9 +1,6 @@
-﻿using ConsoleTables;
-using Microsoft.Extensions.DependencyInjection;
-using Something.Domain.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Something.UI.Services;
 using System;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
 
 namespace Something.UI
@@ -26,6 +23,7 @@ namespace Something.UI
             {
                 client.BaseAddress = baseUri;
             });
+            services.AddSingleton<IHandler, ArgumentAHandler>();
             var provider = services.BuildServiceProvider();
             var somethingService = provider.GetService<ISomethingService>();
             var securityService = provider.GetService<ISecurityService>();
@@ -33,21 +31,6 @@ namespace Something.UI
             {
                 securityService.GetHeader();
                 somethingService.Run(args, securityService.SecurityHeader);
-                var somethingElseList = somethingService.SomethingElses;
-                if (!(somethingElseList is null))
-                {
-                    foreach (var item in somethingElseList)
-                    {
-                        Console.WriteLine(@"# {0}", item.Name);
-                        Console.WriteLine("");
-                        ConsoleTable
-                            .From<Something.Domain.Models.Something>(item.Somethings)
-                            .Configure(o => o.NumberAlignment = Alignment.Right)
-                            .Write(Format.MarkDown);
-                    }
-                }
-
-                Console.ReadKey();
             }
             catch (Exception)
             {

@@ -1,11 +1,6 @@
 ﻿using Something.Domain.Models;
 using Something.UI.Models;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 
 namespace Something.UI
 {
@@ -21,31 +16,11 @@ namespace Something.UI
 
         public void Run(string[] args, Token token)
         {
-            string requestEndpoint = string.Empty;
-            foreach (string cmd in args)
-            {
-                if (cmd.StartsWith("/"))
-                {
-                    switch (cmd.Substring(1))
-                    {
-                        case "a":
-                            requestEndpoint = "/api/thingselse";
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            if (requestEndpoint == "") return;
-            try
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.access_token);
-                SomethingElses = _httpClient.GetFromJsonAsync<SomethingElse[]>(requestEndpoint).Result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString() + _httpClient.BaseAddress + requestEndpoint);
-            }
+            var handler = new ArgumentAHandler(_httpClient);
+            //handler.SetNext(new ArgumentBHandler(_httpClient))
+            //    .SetNext(new ArgumentCHandler());
+
+            handler.Handle(args, token);
         }
     }
 }
