@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
-namespace Something.UI
+namespace Something.UI.Handlers.ArgumentHandlers
 {
     public class ArgumentAHandler : ArgumentHandler
     {
@@ -41,7 +41,6 @@ namespace Something.UI
                                     .Configure(o => o.NumberAlignment = Alignment.Right)
                                     .Write(Format.MarkDown);
                             }
-                            Console.ReadKey();
                         }
                     }
                     catch (Exception ex)

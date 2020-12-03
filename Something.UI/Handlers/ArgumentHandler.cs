@@ -13,6 +13,7 @@ namespace Something.UI
             {
                 throw new ArgumentException();
             }
+            Next.Handle(args, token);
         }
 
         public IHandler SetNext(IHandler next)

@@ -1,4 +1,5 @@
 ﻿using Something.Domain.Models;
+using Something.UI.Handlers.ArgumentHandlers;
 using Something.UI.Models;
 using System.Net.Http;
 
@@ -17,8 +18,8 @@ namespace Something.UI
         public void Run(string[] args, Token token)
         {
             var handler = new ArgumentAHandler(_httpClient);
-            //handler.SetNext(new ArgumentBHandler(_httpClient))
-            //    .SetNext(new ArgumentCHandler());
+            handler.SetNext(new UnexpectedArgumentHandler());
+            //    .SetNext(new ArgumentXHandler());
 
             handler.Handle(args, token);
         }

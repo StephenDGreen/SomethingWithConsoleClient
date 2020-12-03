@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Something.UI.Handlers.ArgumentHandlers;
 using Something.UI.Services;
 using System;
 using System.Net.Http.Headers;
@@ -24,6 +25,7 @@ namespace Something.UI
                 client.BaseAddress = baseUri;
             });
             services.AddSingleton<IHandler, ArgumentAHandler>();
+            services.AddSingleton<IHandler, UnexpectedArgumentHandler>();
             var provider = services.BuildServiceProvider();
             var somethingService = provider.GetService<ISomethingService>();
             var securityService = provider.GetService<ISecurityService>();
