@@ -3,6 +3,7 @@ using Something.Domain.Models;
 using Something.UI.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -28,22 +29,28 @@ namespace Something.UI.Handlers.ArgumentHandlers
                 if (cmd.StartsWith("/") && cmd.Substring(1) == "d") 
                 {
 
-                    string requestEndpoint = @"/api/things";
+                    string requestEndpoint = @"/api/thingselse";
                     try
                     {
                         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.access_token);
-                        var value = new Dictionary<string, string>
-                            {
-                                { "Name", RandomString(RandomNumber(10,20),true) }
-                            };
-
-                        var content = new FormUrlEncodedContent(value);
+                        var content = new FormUrlEncodedContent(new KeyValuePair<string, string>[]{
+                            new KeyValuePair<string, string>("Name", RandomString(RandomNumber(10, 20), true)),
+                            new KeyValuePair<string, string>("Othername", RandomString(RandomNumber(10, 20), true)),
+                            new KeyValuePair<string, string>("Othername", RandomString(RandomNumber(10, 20), true)) });
                         var response = _httpClient.PostAsync(requestEndpoint, content).Result;
-                        Domain.Models.Something[] Somethings = response.Content.ReadFromJsonAsync<Something.Domain.Models.Something[]>().Result;
-                        ConsoleTable
-                            .From<Something.Domain.Models.Something>(Somethings)
-                            .Configure(o => o.NumberAlignment = Alignment.Right)
-                            .Write(Format.MarkDown);
+                        Domain.Models.SomethingElse[] SomethingElses = response.Content.ReadFromJsonAsync<Something.Domain.Models.SomethingElse[]>().Result;
+                        if (!(SomethingElses is null))
+                        {
+                            foreach (var item in SomethingElses)
+                            {
+                                Console.WriteLine(@"# {0}", item.Name);
+                                Console.WriteLine("");
+                                ConsoleTable
+                                    .From<Something.Domain.Models.Something>(item.Somethings)
+                                    .Configure(o => o.NumberAlignment = Alignment.Right)
+                                    .Write(Format.MarkDown);
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
