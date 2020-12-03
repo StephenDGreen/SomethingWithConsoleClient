@@ -10,6 +10,7 @@ namespace Something.UI.Handlers.ArgumentHandlers
         {
             Console.WriteLine("Options:");
             Console.WriteLine("\t/a - Get Something-Else Listing");
+            Console.WriteLine("\t/d - Create Something with Dummy Data");
             Console.Write("\nPress any key to exit...");
             Console.ReadKey(true);
         }

@@ -18,8 +18,8 @@ namespace Something.UI
         public void Run(string[] args, Token token)
         {
             var handler = new ArgumentAHandler(_httpClient);
-            handler.SetNext(new UnexpectedArgumentHandler());
-            //    .SetNext(new ArgumentXHandler());
+            handler.SetNext(new ArgumentDHandler(_httpClient))
+                .SetNext(new UnexpectedArgumentHandler());
 
             handler.Handle(args, token);
         }

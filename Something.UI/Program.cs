@@ -25,6 +25,7 @@ namespace Something.UI
                 client.BaseAddress = baseUri;
             });
             services.AddSingleton<IHandler, ArgumentAHandler>();
+            services.AddSingleton<IHandler, ArgumentDHandler>();
             services.AddSingleton<IHandler, UnexpectedArgumentHandler>();
             var provider = services.BuildServiceProvider();
             var somethingService = provider.GetService<ISomethingService>();
