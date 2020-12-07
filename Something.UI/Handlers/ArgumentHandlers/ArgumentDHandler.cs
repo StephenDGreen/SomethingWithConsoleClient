@@ -1,9 +1,7 @@
 ﻿using ConsoleTables;
-using Something.Domain.Models;
 using Something.UI.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -28,7 +26,6 @@ namespace Something.UI.Handlers.ArgumentHandlers
             {
                 if (cmd.StartsWith("/") && cmd.Substring(1) == "d") 
                 {
-
                     string requestEndpoint = @"/api/thingselse";
                     try
                     {
